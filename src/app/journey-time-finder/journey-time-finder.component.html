@@ -1,0 +1,43 @@
+<p>Please enter below</p>
+
+<!-- dotnet add package jSQL.js --version 1.0.4 -->
+  <div class="row">
+    <div class="col-md-6">
+        <form >  
+            <!--  #f="ngForm" novalidate (ngSubmit)="CalculateJourneyTime(f)" -->
+            
+            <div class="form-group">
+              <label for="selectedDepartStation">Depart Station</label>
+              <select  #selectedDepartStation [(ngModel)]="selectedDepart" (change)="changeDepartStation(selectedDepartStation.value)">
+                <option>Select..</option>
+                <option *ngFor="let sl of departstationsList" [value]="sl">{{sl}}</option>
+                </select>
+              <!-- <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small> -->
+            </div>
+            <div class="form-group">
+              <label for="selectedArriveStation">Arrival Station</label>
+
+              <select  #selectedArriveStation   >
+                <option>Select..</option>
+                <option  *ngFor="let sl of arrivestationsList"  [value]="sl">{{sl}}</option>
+                </select>
+
+            </div>          
+  
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" >Get commute time</button>
+                <!-- [disabled]="f.invalid || isRequesting" -->
+                <!-- <app-spinner [isRunning]="isRequesting"></app-spinner>  -->
+            </div>
+  
+            <!-- <div *ngIf="errors" class="alert alert-danger" role="alert">
+                <strong>Oops!</strong> {{errors}}
+              </div>  -->
+            
+          </form>
+     </div>
+  </div>
+  
+  
+  
+   

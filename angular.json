@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "read-local-json-angular-app"
+    }
+  },
+  "defaultProject": "read-local-json-angular-app",
+  "cli": {
+    "analytics": false
+  }
 }
