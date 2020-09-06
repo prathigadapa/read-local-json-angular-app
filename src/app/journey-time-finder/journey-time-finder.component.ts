@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import _stations from 'src/app/_files/stations.json' //to support this add json-typings.d.js file
 import {Station} from  'src/app/_files/Station'
@@ -10,11 +11,13 @@ import {Station} from  'src/app/_files/Station'
 })
 export class JourneyTimeFinderComponent implements OnInit {
    departstationsList : any[] =this.getAllDepartStations();
-   selectedDepartStation:String = this.departstationsList[1];
+   selectedDepartStation:String ="Select";// = this.departstationsList[1];
   arrivestationsList : any[] = this.getAllArriveStations();
-  selectedArriveStation: String= this.arrivestationsList[1];
+  selectedArriveStation: String="Select";//= this.arrivestationsList[1];
    filterResult:Station[];
+  
    displayJourneyTime :String;
+    connectingStation : Station[];
   constructor() { }
 
   
@@ -45,20 +48,54 @@ export class JourneyTimeFinderComponent implements OnInit {
 
 
   GetCommuteTime(event: Event) { 
-    // console.log(this.selectedArriveStation) ;
-    // console.log(this.selectedDepartStation) ;
+ this.displayJourneyTime ="Total journey time is:";
    this.filterResult = _stations.filter(x=>x.ArriveStation == this.selectedArriveStation && x.DepartStation == this.selectedDepartStation);
    if(this.filterResult.length == 1)
    {
 
     //console.log(JSON.stringify(this.filterResult[0].Time))
-    this.displayJourneyTime =JSON.stringify(this.filterResult[0].Time)+"m";
+    this.displayJourneyTime +=JSON.stringify(this.filterResult[0].Time)+"m";
    }
    else{
+    let departStations:Station[]
+    let arriveStations:Station[]
+    //filterResult:Station[];
+    departStations =  _stations.filter(x=>x.DepartStation == this.selectedDepartStation)
+    arriveStations = _stations.filter(x=>x.ArriveStation == this.selectedArriveStation)
+    // console.log(JSON.stringify(departStations));
 
-   }
+    // console.log(JSON.stringify(arriveStations));
+
+
+    var connectingStation=[] 
     
-   console.log(JSON.stringify(this.filterResult));
+    departStations.forEach(element => {
+      console.log(element);
+      for(let i=0;i<arriveStations.length;i++)
+      {
+        console.log(arriveStations[i]);
+      if(element.ArriveStation=== arriveStations[i].DepartStation){
+      
+        connectingStation.push(Object.assign(arriveStations[i]))
+      }
+    }
+    });
+    
+   
+   // console.log(connectingStation);
+    if(connectingStation.length > 0)
+   {
+
+    var time =  connectingStation[0].Time ;
+    time+= departStations.find(x=>x.ArriveStation == connectingStation[0].DepartStation).Time;
+  
+    this.displayJourneyTime +=JSON.stringify(time)+"m";
+   }
+   }
+
+
+    
+   //console.log(JSON.stringify(this.filterResult));
   } 
   ngOnInit(): void {
   }

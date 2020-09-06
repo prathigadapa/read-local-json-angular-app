@@ -1,45 +1,41 @@
-<p>Please enter below</p>
+<h2>Total journey time finder</h2>
 
-<!-- dotnet add package jSQL.js --version 1.0.4 -->
   <div class="row">
-    <div class="col-md-6">
-        <!-- <form >   -->
-            <!--  #f="ngForm" novalidate (ngSubmit)="CalculateJourneyTime(f)" -->
-            
-            <div class="form-group">
-              <label for="selectedDepartStation">Depart Station</label>
+    <div class="col-md-12">
+
+          
+           
+            <div >
+              <label for="selectedDepartStation">Depart Station: </label>
               <select  name="selectedDepartStation" [(ngModel)]="selectedDepartStation" (change)="changeDepartStation($event.target.value)">
-                <option>Select..</option>
+                <option>Select</option>
                 <option *ngFor="let sl of departstationsList" [value]="sl">{{sl}}</option>
                 </select>
-              <!-- <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small> -->
+              
             </div>
-            <div class="form-group">
-              <label for="selectedArriveStation">Arrival Station</label>
+        
+           
+            <div>
+           
+           <label for="selectedArriveStation">Arrive Station: </label>
 
               <select  name="selectedArriveStation"  [(ngModel)]="selectedArriveStation" (change)="changeArriveStation($event.target.value)">
-                <option>Select..</option>
+                <option>Select</option>
                 <option  *ngFor="let sl of arrivestationsList"  [value]="sl">{{sl}}</option>
                 </select>
 
             </div>          
   
-            <div class="form-group">
+            <div >
                 <button type="button" class="btn btn-primary" (click)="GetCommuteTime($event)" >Get commute time</button>
-                <!-- [disabled]="f.invalid || isRequesting" -->
-                <!-- <app-spinner [isRunning]="isRequesting"></app-spinner>  -->
+              
             </div>
 
             <div>
 
-              journey time is: {{displayJourneyTime}}
+              <p>{{displayJourneyTime}}</p> 
             </div>
   
-            <!-- <div *ngIf="errors" class="alert alert-danger" role="alert">
-                <strong>Oops!</strong> {{errors}}
-              </div>  -->
-<!--             
-          </form> -->
      </div>
   </div>
   
