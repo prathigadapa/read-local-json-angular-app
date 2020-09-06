@@ -1,43 +1,50 @@
 <h2>Total journey time finder</h2>
 
-  <div class="row">
-    <div class="col-md-12">
 
-          
-           
-            <div >
+    <div class="row col-md-12">
+    <form >
+  
+      <div class="form-group">
               <label for="selectedDepartStation">Depart Station: </label>
               <select  name="selectedDepartStation" [(ngModel)]="selectedDepartStation" (change)="changeDepartStation($event.target.value)">
                 <option>Select</option>
                 <option *ngFor="let sl of departstationsList" [value]="sl">{{sl}}</option>
                 </select>
-              
             </div>
         
            
-            <div>
+            <div class="form-group">
            
            <label for="selectedArriveStation">Arrive Station: </label>
 
-              <select  name="selectedArriveStation"  [(ngModel)]="selectedArriveStation" (change)="changeArriveStation($event.target.value)">
+              <select   name="selectedArriveStation"  [(ngModel)]="selectedArriveStation" (change)="changeArriveStation($event.target.value)">
                 <option>Select</option>
                 <option  *ngFor="let sl of arrivestationsList"  [value]="sl">{{sl}}</option>
                 </select>
 
             </div>          
   
-            <div >
-                <button type="button" class="btn btn-primary" (click)="GetCommuteTime($event)" >Get commute time</button>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary"  class="btn btn-primary" (click)="GetCommuteTime($event)" >Get commute time</button>
               
             </div>
 
             <div>
 
-              <p>{{displayJourneyTime}}</p> 
+              <div class="alert alert-primary" *ngIf="displayJourneyTime;else elseBlock" role="alert">{{displayJourneyTime}}</div> 
+              
+              <ng-template #elseBlock></ng-template>
+             
+              <div class="alert alert-danger" *ngIf="error"  role="alert">
+                {{error}}
+              </div>
+
             </div>
   
-     </div>
+   
+    </form>
   </div>
+
   
   
   

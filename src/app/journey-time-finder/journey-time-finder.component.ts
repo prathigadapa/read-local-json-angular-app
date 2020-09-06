@@ -15,9 +15,9 @@ export class JourneyTimeFinderComponent implements OnInit {
   arrivestationsList : any[] = this.getAllArriveStations();
   selectedArriveStation: String="Select";//= this.arrivestationsList[1];
    filterResult:Station[];
-  
    displayJourneyTime :String;
     connectingStation : Station[];
+    error :String;
   constructor() { }
 
   
@@ -48,55 +48,61 @@ export class JourneyTimeFinderComponent implements OnInit {
 
 
   GetCommuteTime(event: Event) { 
- this.displayJourneyTime ="Total journey time is:";
-   this.filterResult = _stations.filter(x=>x.ArriveStation == this.selectedArriveStation && x.DepartStation == this.selectedDepartStation);
-   if(this.filterResult.length == 1)
-   {
-
-    //console.log(JSON.stringify(this.filterResult[0].Time))
-    this.displayJourneyTime +=JSON.stringify(this.filterResult[0].Time)+"m";
-   }
-   else{
-    let departStations:Station[]
-    let arriveStations:Station[]
-    //filterResult:Station[];
-    departStations =  _stations.filter(x=>x.DepartStation == this.selectedDepartStation)
-    arriveStations = _stations.filter(x=>x.ArriveStation == this.selectedArriveStation)
-    // console.log(JSON.stringify(departStations));
-
-    // console.log(JSON.stringify(arriveStations));
-
-
-    var connectingStation=[] 
     
-    departStations.forEach(element => {
-      console.log(element);
-      for(let i=0;i<arriveStations.length;i++)
+    if(this.selectedArriveStation =="Select" && this.selectedDepartStation=="Select")
+     {
+       this.error ="Please select the departure and arrive stations";
+
+        this.displayJourneyTime ="";
+     }
+    else
+    {
+     this.displayJourneyTime ="Total journey time is:";
+     this.error="";
+     this.filterResult = _stations.filter(x=>x.ArriveStation == this.selectedArriveStation && x.DepartStation == this.selectedDepartStation);
+      if(this.filterResult.length == 1)
       {
-        console.log(arriveStations[i]);
-      if(element.ArriveStation=== arriveStations[i].DepartStation){
-      
-        connectingStation.push(Object.assign(arriveStations[i]))
+        this.displayJourneyTime +=JSON.stringify(this.filterResult[0].Time)+"m";
       }
-    }
-    });
+      else
+      {
+          let departStations:Station[]
+          let arriveStations:Station[]
+          departStations =  _stations.filter(x=>x.DepartStation == this.selectedDepartStation)
+          arriveStations = _stations.filter(x=>x.ArriveStation == this.selectedArriveStation)
+
+
+          var connectingStation=[] 
+          
+          departStations.forEach(element => {
+            for(let i=0;i<arriveStations.length;i++)
+            {
+             
+            if(element.ArriveStation=== arriveStations[i].DepartStation){
+            
+              connectingStation.push(Object.assign(arriveStations[i]))
+            }
+          }
+          });
+      
     
-   
-   // console.log(connectingStation);
-    if(connectingStation.length > 0)
-   {
+          if(connectingStation.length > 0)
+          {
 
-    var time =  connectingStation[0].Time ;
-    time+= departStations.find(x=>x.ArriveStation == connectingStation[0].DepartStation).Time;
-  
-    this.displayJourneyTime +=JSON.stringify(time)+"m";
+            var time =  connectingStation[0].Time ;
+            time+= departStations.find(x=>x.ArriveStation == connectingStation[0].DepartStation).Time;
+
+            this.displayJourneyTime +=JSON.stringify(time)+"m";
+          }
+          else
+          {
+            this.error +="sorry! can not find the information";
+            this.displayJourneyTime ="";
+          }
    }
-   }
 
-
-    
-   //console.log(JSON.stringify(this.filterResult));
   } 
+}
   ngOnInit(): void {
   }
 
